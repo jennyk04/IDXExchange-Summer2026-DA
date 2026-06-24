@@ -1,13 +1,11 @@
 # IDX Exchange Summer 2026 Data Analyst Internship
 
-## Introduction
-
 ## Objectives
+A Multiple Listing Service (MLS) is a private, cooperative database operated by a regional association of real estate brokers. This internship works with datasets originating from CRMLS - the California Regional Multiple Listing Service - one of the largeset MLS systems in the United States, covering much of Southern California.
 
 ## Resources
-
-## DA49 team information
-introduction to the team, purpose of the team
+FileZilla Client
+January 2024 to May 2026
 
 ## Getting Started
 
@@ -59,10 +57,10 @@ The following softwares are required prior to reproducing program.
 
 ### Executing Program
 
-1. Clone or download this repository:
+1. Clone this repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/jennyk04/IDXExchange-Summer2026-DA.git
    ```
 
 2. Navigate to the project directory:
@@ -71,7 +69,7 @@ The following softwares are required prior to reproducing program.
    cd IDXExchange-Summer2026-DA
    ```
 
-3. Place all monthly MLS CSV files in the `csv/` folder.
+3. Extract and place all monthly MLS CSV files in the `csv/` folder.
 
 4. Verify that the project structure matches the following format:
 
@@ -87,6 +85,9 @@ The following softwares are required prior to reproducing program.
    ├── py/
    │   ├── Listing.py
    │   └── ...
+   ├── resources/
+   │   ├── ...
+   ├── .gitignore
    └── README.md
    ```
 
@@ -95,5 +96,11 @@ The following softwares are required prior to reproducing program.
 6. Run the Python scripts from the project root directory using:
 
    ```bash
-   python3 py/Listing.py
+   python3 py/<script-name>
    ```
+
+## DA49 team information
+While the data analysis was performed independently, interns were placed in teams to encourage communication and team building. Team members shared about the different ways to analyze datasets and troubleshoot errors. 
+
+**Team members:** Jenny Kim, Sai Korada, Wuxun Li, Hsiang-Ling, Kacy Liu, Vaishnavi Muchokota, Alain Shi, Ying Wu
+**Coach:** Yoshika Ino
