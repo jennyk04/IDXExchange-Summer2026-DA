@@ -3,9 +3,19 @@
 ## Objectives
 A Multiple Listing Service (MLS) is a private, cooperative database operated by a regional association of real estate brokers. This internship works with datasets originating from CRMLS - the California Regional Multiple Listing Service - one of the largeset MLS systems in the United States, covering much of Southern California.
 
+The primary goal of this internship is to build an end-to-end real estate data analytics workflow, mirroring production pipelines used at major real estate companies like Zillow and Redfin. By the end of the program, interns will be able to:
+
+- *Understand MLS data structures:*  interpret key listing and transaction fields such as ListPrice, ClosePrice, PurchaseContractDate, DOM
+- *Clean and transform raw data:* use Python to perform EDA for dataset structuring and validation
+- *Analyze market dynamics:* aggregate listings dataset and sold dataset to produe metrics for price trends, inventory levels, and agent/brokerage performance
+- *Visualize insights:* transform analysis-ready datasets to Tableau and build interactive dashboards for business communication
+
 ## Resources
-FileZilla Client
-January 2024 to May 2026
+**Real Estate Data Analyst Primer**
+Internal company guide covering MLS data structure, transaction lifecycle, key metrics, and analytics workflow. Required reading prior to analysis.
+
+**FileZilla Client**
+Extract monthly CRMLS CSV files from January 2024 to May 2026 for listings and sold datasets.
 
 ## Getting Started
 
