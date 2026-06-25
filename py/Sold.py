@@ -15,6 +15,10 @@ for file in target_files:
     new_filename = f'csv/CRMLSSold{file}.csv'
     df.to_csv(new_filename, index=False)
 
+# ------------------------------------------------------
+# Week 1: Monthly Dataset Aggregation
+# ------------------------------------------------------
+
 year = 2024
 month = 1
 
