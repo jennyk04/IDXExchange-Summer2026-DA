@@ -213,7 +213,7 @@ for i, feature in enumerate(key_fields):
 plt.tight_layout()
 plt.show()
 
-# identified percential cutoffs for each field to remove outliers from histograms
+# identified percentile cutoffs for each field to remove outliers from histograms
 percentile_cutoffs = {
     'ClosePrice': 0.99,
     'ListPrice': 0.99,
