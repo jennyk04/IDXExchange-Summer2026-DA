@@ -48,9 +48,9 @@ while (year < 2026) or (year == 2026 and month <= 6):
 sold_final = pd.concat(sold_df)
 
 print(f'Sold rows before concatenation: {sold_row_count}')
-### Sold rows before concatenation: 639878
+### Sold rows before concatenation: 665398
 print(f'Sold rows after concatenation: {len(sold_final)}')
-### Sold rows after concatenation: 639878
+### Sold rows after concatenation: 665398
 
 # save dataframe as csv file
 sold_final.to_csv('csv/CRMLSSoldFinal.csv', index=False)

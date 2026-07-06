@@ -30,9 +30,9 @@ while (year < 2026) or (year == 2026 and month <= 6):
 listing_final = pd.concat(listing_df)
 
 print(f'Listing rows before concatenation: {listing_row_count}')
-# Listing rows before concatenation: 930311
+# Listing rows before concatenation: 967753
 print(f'Listing rows after concatenation: {len(listing_final)}')
-# Listing rows after concatenation: 930311
+# Listing rows after concatenation: 967753
 
 # save dataframe as csv file
 listing_final.to_csv('csv/CRMLSListingFinal.csv', index=False)
