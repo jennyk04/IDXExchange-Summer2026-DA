@@ -30,7 +30,7 @@ sold_df = []
 sold_row_count = 0
 
 # end loop after 202605 is passed
-while (year < 2026) or (year == 2026 and month <= 5):
+while (year < 2026) or (year == 2026 and month <= 6):
     sold_filename = f'csv/CRMLSSold{year}{month:02d}.csv'
     sold = pd.read_csv(sold_filename)
 

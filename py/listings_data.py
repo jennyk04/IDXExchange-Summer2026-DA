@@ -12,7 +12,7 @@ listing_df = []
 listing_row_count = 0
 
 # end loop after 202605 is passed
-while (year < 2026) or (year == 2026 and month <= 5):
+while (year < 2026) or (year == 2026 and month <= 6):
     listing_filename = f'csv/CRMLSListing{year}{month:02d}.csv'
     listing = pd.read_csv(listing_filename)
 
