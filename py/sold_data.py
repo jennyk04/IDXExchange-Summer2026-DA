@@ -8,11 +8,11 @@ target_files = ['202403', '202404', '202405',
                 '202406', '202407', '202501']
 
 for file in target_files:
-    filename = f'csv/CRMLSSold{file}_filled.csv'
+    filename = f'csv/monthly_sold/CRMLSSold{file}_filled.csv'
     df = pd.read_csv(filename)
     df = df.iloc[:, :-2]
 
-    new_filename = f'csv/CRMLSSold{file}.csv'
+    new_filename = f'csv/monthly_sold/CRMLSSold{file}.csv'
     df.to_csv(new_filename, index=False)
 
 # ------------------------------------------------------
@@ -29,9 +29,9 @@ sold_df = []
 # record before concatenation row counts
 sold_row_count = 0
 
-# end loop after 202605 is passed
+# end loop after 202606 is passed
 while (year < 2026) or (year == 2026 and month <= 6):
-    sold_filename = f'csv/CRMLSSold{year}{month:02d}.csv'
+    sold_filename = f'csv/monthly_sold/CRMLSSold{year}{month:02d}.csv'
     sold = pd.read_csv(sold_filename)
 
     sold_df.append(sold)
