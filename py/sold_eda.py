@@ -64,11 +64,11 @@ print_subsection('Columns with >90% Missing Values')
 print(missing_summary)
 
 print_subsection('Column Removal')
-# Decided to drop everything but BuildingAreaTotal
+# Decided to drop everything with >90% missing
 drop_columns = ['WaterfrontYN', 'BasementYN', 'FireplacesTotal', 'AboveGradeFinishedArea', 'TaxAnnualAmount',
                 'BuilderName', 'TaxYear', 'ElementarySchoolDistrict', 'CoBuyerAgentFirstName',
                 'BelowGradeFinishedArea', 'BusinessType', 'CoveredSpaces', 'LotSizeDimensions',
-                'MiddleOrJuniorSchoolDistrict']
+                'MiddleOrJuniorSchoolDistrict', 'BuildingAreaTotal']
 sold_final = sold_final.drop(columns=drop_columns)
 
 print_stat('Columns removed:', len(drop_columns))
