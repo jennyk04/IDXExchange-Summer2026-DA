@@ -16,6 +16,7 @@ mortgage.columns = ['date', 'rate_30yr_fixed']
 # Step 2 – Resample weekly rates to monthly averages
 mortgage['year_month'] = mortgage['date'].dt.to_period('M')
 mortgage_monthly = (mortgage.groupby('year_month')['rate_30yr_fixed'].mean().reset_index())
+print(mortgage_monthly.head())
 
 # Step 3 – Create a matching year_month key on the MLS datasets
 # Sold dataset — key off CloseDate
@@ -35,3 +36,7 @@ print(listings_with_rates['rate_30yr_fixed'].isnull().sum())
 
 # Preview
 print(sold_with_rates[['CloseDate', 'year_month', 'ClosePrice', 'rate_30yr_fixed']].head())
+
+# update csv file
+sold_with_rates.to_csv('csv/CRMLSSoldFinal.csv')
+listings_with_rates.to_csv('csv/CRMLSListingFinal.csv')
