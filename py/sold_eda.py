@@ -15,6 +15,7 @@ def print_subsection(title):
 def print_stat(label, value):
     print(f'{label:<20} {value}')
 
+# %%
 # ------------------------------------------------------
 # Week 2/3: Dataset Structuring and Validation
 # ------------------------------------------------------
@@ -37,6 +38,7 @@ print(sold_final.dtypes)
 print_subsection('Dataset Preview')
 print(sold_final.head())
 
+# %%
 ##### -------------------------------------------------- 
 print_subsection('Property Type Filtering')
 # Check property categories
@@ -51,6 +53,7 @@ sold_after_filter = len(sold_final)
 print_stat('Sold rows before filtering:', sold_before_filter)
 print_stat('Sold rows after filtering:', sold_after_filter)
 
+# %%
 ##### -------------------------------------------------- 
 print_section('Missing Value Review')
 
@@ -91,7 +94,6 @@ market_fields = [
 
     # Property Characteristics
     'LivingArea',
-    'BuildingAreaTotal',
     'LotSizeAcres',
     'LotSizeArea',
     'LotSizeSquareFeet',
@@ -306,6 +308,103 @@ for i, feature in enumerate(key_fields):
 
 plt.tight_layout()
 plt.show()
+
+# %%
+# ------------------------------------------------------
+# Week 4/5: Data Cleaning and Preparation
+# ------------------------------------------------------
+
+print_section('WWeek 4/5: Data Cleaning and Preparation')
+
+print_subsection('Data Structure')
+# Inspect Structure
+print_stat('Columns in Sold Dataset:', len(sold_final.columns))
+print_stat('Rows in Sold Dataset:', len(sold_final))
+
+print_subsection('Dataset Preview')
+print(sold_final.head())
+
+##### -------------------------------------------------- 
+print_subsection('Date Consistency Checks')
+# Check property categories
+date_fields = ['CloseDate', 'PurchaseContractDate', 'ListingContractDate', 'ContractStatusChangeDate']
+
+print(sold_final[date_fields].head())
+print('Date Fields:')
+print(sold_final[date_fields].dtypes)
+
+for i in date_fields:
+    sold_final[i] = pd.to_datetime(sold_final[i], errors='coerce')
+
+print_subsection("Date types after conversion")
+print(sold_final[date_fields].head())
+print('Date Fields:')
+print(sold_final[date_fields].dtypes)
+
+##### -------------------------------------------------- 
+print_subsection('Invalid numeric values')
+print('ClosePrice')
+print(sold_final['ClosePrice'].describe())
+
+print(sold_final['ClosePrice'].dtype)
+
+print_stat('Non-positive values:', (sold_final['ClosePrice'] <= 0).sum())
+# remove values with <= 0 price; meaningless to analysis
+sold_final = sold_final[sold_final['ClosePrice'] > 0]
+
+print('----------------------------------------------------------------------') 
+print('LivingArea')
+print_subsection('Invalid numeric values: LivingArea')
+print(sold_final['LivingArea'].describe())
+
+print_stat('Non-positive values:', (sold_final['LivingArea'] <= 0).sum())
+# remove values with <= 0 price; meaningless to analysis
+sold_final = sold_final[sold_final['LivingArea'] > 0]
+
+print('----------------------------------------------------------------------')
+print('DaysOnMarket')
+print_subsection('Invalid numeric values: DaysOnMarket')
+print(sold_final['DaysOnMarket'].describe())
+
+print_stat('Non-positive values:', (sold_final['DaysOnMarket'] < 0).sum())
+# remove values with <= 0 price; meaningless to analysis
+sold_final = sold_final[sold_final['DaysOnMarket'] >= 0]
+
+print('----------------------------------------------------------------------')
+print('BedroomsTotal')
+print_subsection('Invalid numeric values: BedroomsTotal')
+print(sold_final['BedroomsTotal'].describe())
+
+print_stat('Non-positive values:', (sold_final['BedroomsTotal'] < 0).sum())
+# remove values with <= 0 price; meaningless to analysis
+sold_final = sold_final[sold_final['BedroomsTotal'] >= 0]
+
+print('----------------------------------------------------------------------')
+print('BathroomsTotalInteger')
+print_subsection('Invalid numeric values: BathroomsTotalInteger')
+print(sold_final['BathroomsTotalInteger'].describe())
+
+print_stat('Non-positive values:', (sold_final['BathroomsTotalInteger'] < 0).sum())
+# remove values with <= 0 price; meaningless to analysis
+sold_final = sold_final[sold_final['BathroomsTotalInteger'] >= 0]
+
+print('----------------------------------------------------------------------')
+print_stat('Sold rows after removing invalid values:', len(sold_final))
+
+##### -------------------------------------------------- 
+print_subsection('Validate Logical Order of Date Fields')
+
+# listing date occurs after the close date
+sold_final['listing_after_close_flag'] = (sold_final['ListingContractDate'] > sold_final['CloseDate'])
+
+# purchase date occurs after the close date
+sold_final['purchase_after_close_flag'] = (sold_final['PurchaseContractDate'] > sold_final['CloseDate'])
+
+# timeline is invalid because purchase happened before listing
+sold_final['negative_timeline_flag'] = (sold_final['PurchaseContractDate'] < sold_final['ListingContractDate'])
+
+flags = ['listing_after_close_flag', 'purchase_after_close_flag', 'negative_timeline_flag']
+print(sold_final[flags].sum())
 
 # save dataframe as csv file
 sold_final.to_csv('csv/CRMLSSoldFinal.csv', index=False)
