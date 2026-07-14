@@ -17,6 +17,9 @@ Internal company guide covering MLS data structure, transaction lifecycle, key m
 **FileZilla Client**
 Extract monthly CRMLS CSV files from January 2024 to May 2026 for listings and sold datasets.
 
+**St.Louis Federal Reserve (FRED)**
+The FRED MORTGAGE30US series is published weekly (every Thursday) by Freddie Mac via the St. Louis Federal Reserve. The data can be fetched directly from FRED as a CSV—no API key required
+
 ## Getting Started
 
 ### Dependencies
@@ -85,15 +88,19 @@ The following softwares are required prior to reproducing program.
 
    ```text
    IDXExchange-Summer2026-DA/
+   ├── case study/
+   │       ├── ...
    ├── csv/
-   │   ├── CRMLSListing202401.csv
-   │   ├── CRMLSListing202402.csv
-   │   ├── ...
-   │   ├── CRMLSSold202401.csv
-   │   ├── CRMLSSold202402.csv
-   │   └── ...
+       ├── monthly_listing
+   │       ├── CRMLSListing202401.csv
+   │       ├── CRMLSListing202402.csv
+   │       ├── ...
+       ├── monthly_sold
+   │       ├── CRMLSSold202401.csv
+   │       ├── CRMLSSold202402.csv
+   │       └── ...
    ├── py/
-   │   ├── Listing.py
+   │   ├── crmls_listed.py
    │   └── ...
    ├── resources/
    │   ├── ...
