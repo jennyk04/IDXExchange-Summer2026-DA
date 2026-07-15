@@ -46,5 +46,11 @@ sold_final = sold_final[sold_final['PropertyType'] == 'Residential']
 print(f'Sold rows after filtering: {len(sold_final)}')
 ### Sold rows after filtering: 2706093
 
+# ------------------------------------------------------
+# Data Quality Checks
+# ------------------------------------------------------
+# ensure name consistency of ListOfficeName and BuyerOfficeName
+print(sold_final['ListOfficeName'].sort_values().unique())
+
 # save dataframe as csv file
 #sold_final.to_csv('csv/CRMLSSoldCS.csv', index=False)
