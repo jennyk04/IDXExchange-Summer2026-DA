@@ -172,8 +172,8 @@ print_stat('Metadata subset shape:', metadata_df.shape)
 print_stat('Market Analysis subset shape:', market_df.shape)
 
 # save as new csv files
-metadata_df.to_csv('csv/CRMLSListing_Metadata.csv', index=False)
-market_df.to_csv('csv/CRMLSListing_Market.csv', index=False)
+#metadata_df.to_csv('csv/CRMLSListing_Metadata.csv', index=False)
+#market_df.to_csv('csv/CRMLSListing_Market.csv', index=False)
 
 ##### -------------------------------------------------- 
 # Analyze the distribution of key numeric fields
@@ -392,7 +392,43 @@ listing_final['negative_timeline_flag'] = (listing_final['PurchaseContractDate']
 flags = ['listing_after_close_flag', 'purchase_after_close_flag', 'negative_timeline_flag']
 print(listing_final[flags].sum())
 
+##### -------------------------------------------------- 
+# Geographic Data Checks
+# flag missing or invalid coordinates (non-california locations)
 
+print_subsection('Geographic Data Checks')
+geographic_fields = ['Latitude', 'Longitude']
+
+# check data type
+print(listing_final[geographic_fields].head())
+print('Geographic Fields:')
+print(listing_final[geographic_fields].dtypes)
+
+for i in geographic_fields:
+    listing_final[i] = pd.to_numeric(listing_final[i], errors='coerce')
+
+print_subsection("Geographic types after conversion")
+print(listing_final[geographic_fields].head())
+print('Geographic Fields:')
+print(listing_final[geographic_fields].dtypes)
+
+print('----------------------------------------------------------------------')
+# flag missing coordinates 
+listing_final['missing_coordinates_flag'] = (listing_final['Latitude'].isna() | listing_final['Longitude'].isna())
+print_stat('Missing coordinates:', listing_final['missing_coordinates_flag'].sum())
+
+# sentinel null coordinates
+listing_final['zero_coordinates_flag'] = ((listing_final['Latitude'] == 0) | (listing_final['Longitude'] == 0))
+print_stat('Sentinel (zero) coordinates:', listing_final['zero_coordinates_flag'].sum())
+
+# non-negative longitude (California coordinates should be negative)
+listing_final['positive_lon_flag'] = (listing_final['Longitude'] > 0)
+print_stat('Positive Longitude values:', listing_final['positive_lon_flag'].sum())
+
+# out-of-state or implausible coordinates
+listing_final['out_of_state_flag'] = ((listing_final['Latitude'] < 32) | (listing_final['Latitude'] > 42) | 
+                                   (listing_final['Longitude'] < -124) | (listing_final['Longitude'] > -114))
+print_stat('Out-of-state coordinates:', listing_final['out_of_state_flag'].sum())
 
 
 # save dataframe as csv file
