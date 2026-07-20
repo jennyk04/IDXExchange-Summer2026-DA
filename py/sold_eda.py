@@ -184,8 +184,8 @@ print_stat('Metadata subset shape:', metadata_df.shape)
 print_stat('Market Analysis subset shape:', market_df.shape)
 
 # save as new csv files
-metadata_df.to_csv('csv/CRMLSSold_Metadata.csv', index=False)
-market_df.to_csv('csv/CRMLSSold_Market.csv', index=False)
+#metadata_df.to_csv('csv/CRMLSSold_Metadata.csv', index=False)
+#market_df.to_csv('csv/CRMLSSold_Market.csv', index=False)
 
 
 ##### -------------------------------------------------- 
@@ -405,6 +405,45 @@ sold_final['negative_timeline_flag'] = (sold_final['PurchaseContractDate'] < sol
 
 flags = ['listing_after_close_flag', 'purchase_after_close_flag', 'negative_timeline_flag']
 print(sold_final[flags].sum())
+
+##### -------------------------------------------------- 
+# Geographic Data Checks
+# flag missing or invalid coordinates (non-california locations)
+
+print_subsection('Geographic Data Checks')
+geographic_fields = ['Latitude', 'Longitude']
+
+# check data type
+print(sold_final[geographic_fields].head())
+print('Geographic Fields:')
+print(sold_final[geographic_fields].dtypes)
+
+for i in geographic_fields:
+    sold_final[i] = pd.to_numeric(sold_final[i], errors='coerce')
+
+print_subsection("Geographic types after conversion")
+print(sold_final[geographic_fields].head())
+print('Geographic Fields:')
+print(sold_final[geographic_fields].dtypes)
+
+print('----------------------------------------------------------------------')
+# flag missing coordinates 
+sold_final['missing_coordinates_flag'] = (sold_final['Latitude'].isna() | sold_final['Longitude'].isna())
+print_stat('Missing coordinates:', sold_final['missing_coordinates_flag'].sum())
+
+# sentinel null coordinates
+sold_final['zero_coordinates_flag'] = ((sold_final['Latitude'] == 0) | (sold_final['Longitude'] == 0))
+print_stat('Sentinel (zero) coordinates:', sold_final['zero_coordinates_flag'].sum())
+
+# non-negative longitude (California coordinates should be negative)
+sold_final['positive_lon_flag'] = (sold_final['Longitude'] > 0)
+print_stat('Positive Longitude values:', sold_final['positive_lon_flag'].sum())
+
+# out-of-state or implausible coordinates
+sold_final['out_of_state_flag'] = ((sold_final['Latitude'] < 32) | (sold_final['Latitude'] > 42) | 
+                                   (sold_final['Longitude'] < -124) | (sold_final['Longitude'] > -114))
+print_stat('Out-of-state coordinates:', sold_final['out_of_state_flag'].sum())
+
 
 # save dataframe as csv file
 sold_final.to_csv('csv/CRMLSSoldFinal.csv', index=False)
