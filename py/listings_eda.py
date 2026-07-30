@@ -304,8 +304,8 @@ print_section('WWeek 4/5: Data Cleaning and Preparation')
 
 print_subsection('Data Structure')
 # Inspect Structure
-print_stat('Columns in Sold Dataset:', len(listing_final.columns))
-print_stat('Rows in Sold Dataset:', len(listing_final))
+print_stat('Columns in Listings Dataset:', len(listing_final.columns))
+print_stat('Rows in Listings Dataset:', len(listing_final))
 
 print_subsection('Dataset Preview')
 print(listing_final.head())
@@ -335,8 +335,8 @@ print(listing_final['ClosePrice'].describe())
 print(listing_final['ClosePrice'].dtype)
 
 print_stat('Non-positive values:', (listing_final['ClosePrice'] <= 0).sum())
-# remove values with <= 0 price; meaningless to analysis
-listing_final = listing_final[listing_final['ClosePrice'] > 0]
+# DON"T remove these; listings dataset does not guarantee all rows will have ClosePrice value
+## listing_final = listing_final[listing_final['ClosePrice'] > 0]
 
 print('----------------------------------------------------------------------') 
 print('LivingArea')
@@ -375,7 +375,7 @@ print_stat('Non-positive values:', (listing_final['BathroomsTotalInteger'] < 0).
 listing_final = listing_final[listing_final['BathroomsTotalInteger'] >= 0]
 
 print('----------------------------------------------------------------------')
-print_stat('Sold rows after removing invalid values:', len(listing_final))
+print_stat('Listings rows after removing invalid values:', len(listing_final))
 
 ##### -------------------------------------------------- 
 print_subsection('Validate Logical Order of Date Fields')
@@ -430,6 +430,7 @@ listing_final['out_of_state_flag'] = ((listing_final['Latitude'] < 32) | (listin
                                    (listing_final['Longitude'] < -124) | (listing_final['Longitude'] > -114))
 print_stat('Out-of-state coordinates:', listing_final['out_of_state_flag'].sum())
 
+print(listing_final.shape)
 
 # save dataframe as csv file
 listing_final.to_csv('csv/CRMLSListingFinal.csv', index=False)
