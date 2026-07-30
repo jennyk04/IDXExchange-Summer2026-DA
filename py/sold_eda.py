@@ -444,6 +444,7 @@ sold_final['out_of_state_flag'] = ((sold_final['Latitude'] < 32) | (sold_final['
                                    (sold_final['Longitude'] < -124) | (sold_final['Longitude'] > -114))
 print_stat('Out-of-state coordinates:', sold_final['out_of_state_flag'].sum())
 
+print(sold_final.shape)
 
 # save dataframe as csv file
 sold_final.to_csv('csv/CRMLSSoldFinal.csv', index=False)
