@@ -88,7 +88,7 @@ sold_final['DistrictName'] = property_geo['DistrictName']
 print_section('Engineered Metrics')
 
 # measures negotiation strength
-sold_final['PriceRatio'] = (sold_final['ClosePrice'] / sold_final['OriginalListPrice'])
+sold_final['PriceRatio'] = (sold_final['ClosePrice'] / sold_final['OriginalListPrice']) # change to ListPrice
 # normalizes prize across sizes
 sold_final['PricePerSqFt'] = (sold_final['ClosePrice'] / sold_final['LivingArea'])
 # captures full price reduction history
@@ -155,5 +155,43 @@ monthly_summary = sold_final.groupby('YrMo').agg(
 ).sort_values('YrMo', ascending=False)
 print(monthly_summary)
 
-# save dataframe as csv file
+# %%
+# ------------------------------------------------------
+# Week 7: OUtlier Detection and Data Quality
+# ------------------------------------------------------
+
+print_section('Week 7: Outlier Detection and Data Quality')
+
+# IQR method removes records that fall outside a defined statistical range
+# apply to the key numeric fields
+numeric_fields = ['ClosePrice', 'LivingArea', 'DaysOnMarket']
+iqr_summary = []
+for i in numeric_fields:
+    q1 = sold_final[i].quantile(0.25)
+    q3 = sold_final[i].quantile(0.75)
+    iqr = q3 - q1
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+
+    # create outlier flag column instead of deleting records
+    flag_column = f'{i}_outlier_flag'
+    sold_final[flag_column] = ((sold_final[i] < lower) | (sold_final[i] > upper))
+    outlier_count = sold_final[flag_column].sum()
+
+    print_subsection(i)
+    print_stat('Q1:', q1)
+    print_stat('Q3:', q3)
+    print_stat('IQR:', iqr)
+    print_stat('Lower Bound:', lower)
+    print_stat('Upper Bound:', upper)
+    print_stat('Outlier Count:', outlier_count)
+
+sold_filtered = sold_final[(~sold_final['ClosePrice_outlier_flag']) & (~sold_final['LivingArea_outlier_flag']) & (~sold_final['DaysOnMarket_outlier_flag'])].copy()
+
+print()
+print_stat('Rows of flagged dataset:', sold_final.shape[0])
+print_stat('Rows of filtered dataset:', sold_filtered.shape[0])
+
+# save dataframes as csv files
+sold_filtered.to_csv('csv/CRMLSSoldFiltered.csv', index=False)
 sold_final.to_csv('csv/CRMLSSoldFinal.csv', index=False)
